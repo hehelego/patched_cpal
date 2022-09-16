@@ -66,7 +66,7 @@ macro_rules! impl_platform_host {
         // functions within the callback.
         //
         // TODO: Confirm this and add more specific detail and references.
-        pub struct Stream(StreamInner, crate::platform::NotSendSyncAcrossAllPlatforms);
+        pub struct Stream(StreamInner);
 
         /// The **SupportedInputConfigs** iterator associated with the platform's dynamically
         /// dispatched **Host** type.
@@ -499,7 +499,7 @@ macro_rules! impl_platform_host {
 
         impl From<StreamInner> for Stream {
             fn from(s: StreamInner) -> Self {
-                Stream(s, Default::default())
+                Stream(s)
             }
         }
 
