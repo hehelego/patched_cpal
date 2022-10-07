@@ -25,7 +25,7 @@ pub type SupportedOutputConfigs = VecIntoIter<SupportedStreamConfigRange>;
 
 mod enumerate;
 
-/// The default linux, dragonfly and freebsd host type.
+/// The default linux, dragonfly, freebsd and netbsd host type.
 #[derive(Debug)]
 pub struct Host;
 
@@ -40,7 +40,7 @@ impl HostTrait for Host {
     type Device = Device;
 
     fn is_available() -> bool {
-        // Assume ALSA is always available on linux/dragonfly/freebsd.
+        // Assume ALSA is always available on linux/dragonfly/freebsd/netbsd.
         true
     }
 
@@ -892,7 +892,7 @@ impl Stream {
         let thread = thread::Builder::new()
             .name("cpal_alsa_in".to_owned())
             .spawn(move || {
-                input_stream_worker(rx, &*stream, &mut data_callback, &mut error_callback);
+                input_stream_worker(rx, &stream, &mut data_callback, &mut error_callback);
             })
             .unwrap();
         Stream {
@@ -917,7 +917,7 @@ impl Stream {
         let thread = thread::Builder::new()
             .name("cpal_alsa_out".to_owned())
             .spawn(move || {
-                output_stream_worker(rx, &*stream, &mut data_callback, &mut error_callback);
+                output_stream_worker(rx, &stream, &mut data_callback, &mut error_callback);
             })
             .unwrap();
         Stream {
